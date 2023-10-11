@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0%;
+            box-sizing: border-box;
+        }
+        #page-main{
+            height: calc(100vh + 447px * 1);
+            display: grid;
+            place-items: center;
+        }
+        #canvas{
+            height: 100vh;
+            width: 100%;
+            position: fixed;
+            top:0;
+            left: 0;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div id="page-main">
+        asdasd
+    </div>
+    <canvas id="canvas">
+
+    </canvas>
+    <script>
+         const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+         var imageArr = [];
+        function InitImages(totalImages){
+                let i=1;
+               
+                for(i=1;i<=totalImages;i++){
+                     imageArr[i] = new Image();
+                     imageArr[i].src = `${i.toString().padStart(5,"0")}.png`;
+                }
+            }
+            InitImages(446);
+              
+                window.onload = function(){
+                    let x = 0,y=0;
+                            let image=imageArr[1];
+                            ctx.drawImage(image, x, y,300, 300 * image.height / image.width); 
+                            //Finally, start the loading process
+                            console.log(window.scrollY);
+            
+                };
+            
+            
+
+            window.addEventListener('scroll',()=>{
+                let x = 0,y=0;
+
+                let image=imageArr[window.scrollY.toFixed(0)];
+                ctx.drawImage(image, x, y,300, 300 * image.height / image.width); 
+                //Finally, start the loading process
+                console.log(window.scrollY.toFixed(0));
+                
+            })
+            
+    </script>
+</body>
+</html>
