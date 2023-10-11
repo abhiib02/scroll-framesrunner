@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Sequence on Scroll</title>
+    <style>
+        body {
+            height: 200vh; /* Enough height to scroll */
+        }
+        canvas {
+            display: block;
+            margin: 50px auto;
+            border: 1px solid #000;
+            position: fixed;
+            top:0;
+            left: 0;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="500" height="500"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+            const ctx = canvas.getContext('2d');
+
+            const numImages = 446; // Assuming you have 10 images named 0.jpg, 1.jpg, ... 9.jpg
+            const images = [];
+            let loadedImages = 0;
+
+            for (let i = 1; i < numImages; i++) {
+                const img = new Image();
+                img.src = `${i.toString().padStart(5,"0")}.png`;
+                img.onload = function() {
+                    loadedImages++;
+                    if (loadedImages === numImages) {
+                        drawImageBasedOnScroll();
+                    }
+                };
+                images.push(img);
+            }
+
+            const speedFactor = 1;  // Change this value as per your need
+
+                function drawImageBasedOnScroll() {
+                    const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+
+                    const adjustedScroll = scrollPercent * speedFactor;
+
+                    const imageIndex = Math.min(Math.floor(adjustedScroll * numImages), numImages - 1);
+                    
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(images[imageIndex], 0, 0, canvas.width, canvas.height);
+                    //console.log(adjustedScroll,adjustedScroll * numImages);
+                }
+
+            window.addEventListener('scroll', drawImageBasedOnScroll);
+    </script>
+</body>
+</html>
